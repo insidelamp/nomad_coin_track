@@ -7391,7 +7391,7 @@ react-is@^18.0.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.1.0.tgz#61aaed3096d30eacf2a2127118b5b41387d32a67"
   integrity sha512-Fl7FuabXsJnV5Q1qIOQwx/sagGF18kogb4gpfcG4gjLBWO0WDiiz1ko/ExayuxE7InyQkBLkxRFG5oxY6Uu3Kg==
 
-react-query@*:
+react-query@*, react-query@^3.39.1:
   version "3.39.1"
   resolved "https://registry.yarnpkg.com/react-query/-/react-query-3.39.1.tgz#3876c0fdac7a3b5a84e195534e5fa8fbdd628847"
   integrity sha512-qYKT1bavdDiQZbngWZyPotlBVzcBjDYEJg5RQLBa++5Ix5jjfbEYJmHSZRZD+USVHUSvl/ey9Hu+QfF1QAK80A==
@@ -8241,6 +8241,11 @@ styled-components@^5.3.5:
     hoist-non-react-statics "^3.0.0"
     shallowequal "^1.1.0"
     supports-color "^5.5.0"
+
+styled-reset@^4.4.1:
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/styled-reset/-/styled-reset-4.4.1.tgz#c7b3aa247d4f8c5d14f1dc72fde9d02b8bee1758"
+  integrity sha512-7j99JIwzotNQmoS8MQJu8OTBDE48gaMEr6SYvuH8xfL0K/a5vNHSRaccTfAiGBs9D3mjLDPxg5iLh3HqFvefPQ==
 
 stylehacks@^5.1.0:
   version "5.1.0"
