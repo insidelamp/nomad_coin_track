@@ -185,7 +185,7 @@ function Coin({ isDark }: ICoinProps) {
   );
 
   const backpage = () => {
-    history.replace("/");
+    history.replace(`/nomad_coin_track`);
   };
   const loading = infoLoading || tickersLoading;
   return (
@@ -237,18 +237,18 @@ function Coin({ isDark }: ICoinProps) {
 
           <Tabs>
             <Tab isActive={chartMatch !== null}>
-              <Link to={`/${coinId}/chart`}>Chart</Link>
+              <Link to={`/nomad_coin_track/${coinId}/chart`}>Chart</Link>
             </Tab>
             <Tab isActive={priceMatch !== null}>
-              <Link to={`/${coinId}/price`}>Price</Link>
+              <Link to={`/nomad_coin_track/${coinId}/price`}>Price</Link>
             </Tab>
           </Tabs>
 
           <Switch>
-            <Route path={`/:coinId/price`}>
+            <Route path={`/nomad_coin_track/:coinId/price`}>
               <Price isDark={isDark} coinId={coinId} />
             </Route>
-            <Route path={`/:coinId/chart`}>
+            <Route path={`/nomad_coin_track/:coinId/chart`}>
               <Chart isDark={isDark} coinId={coinId} />
             </Route>
           </Switch>

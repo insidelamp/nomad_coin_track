@@ -92,7 +92,7 @@ function Coins({ toggleDark }: ICoinProps) {
             <Coin key={coin.id}>
               <Link
                 to={{
-                  pathname: `/${coin.id}`,
+                  pathname: `/nomad_coin_track/${coin.id}`,
                   state: { name: coin.name },
                 }}
               >

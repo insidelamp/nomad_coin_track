@@ -10,10 +10,10 @@ function Router({ toggleDark, isDark }: IRouterProps) {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/:coinId">
+        <Route path="/nomad_coin_track/:coinId">
           <Coin isDark={isDark} />
         </Route>
-        <Route path="/">
+        <Route path="/nomad_coin_track">
           <Coins toggleDark={toggleDark} />
         </Route>
       </Switch>
