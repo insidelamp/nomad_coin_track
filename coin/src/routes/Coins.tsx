@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useQuery } from "react-query";
 import { fetchCoins } from "../api";
+
 const Container = styled.div`
   padding: 0px 20px;
   max-width: 480px;
@@ -16,11 +17,11 @@ const Header = styled.header`
 `;
 const CoinsList = styled.ul``;
 const Coin = styled.li`
-  background-color: white;
+  background-color: gray;
   color: ${(props) => props.theme.bgColor};
   border-radius: 15px;
   margin-bottom: 10px;
-  border: 1px solid white;
+  border: 3px solid red;
   a {
     display: flex;
     align-items: center;
@@ -34,8 +35,9 @@ const Coin = styled.li`
   }
 `;
 const Title = styled.h1`
-  font-size: 48px;
+  font-size: 60px;
   color: ${(props) => props.theme.accentColor};
+  font-weight: bold;
 `;
 const Loader = styled.span`
   text-align: center;
@@ -43,9 +45,20 @@ const Loader = styled.span`
 `;
 
 const Img = styled.img`
-  width: 35px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
   margin-right: 10px;
+`;
+
+const ToggleBtn = styled.button`
+  width: 100px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: violet;
+  color: white;
+  border: none;
+  outline: none;
+  margin-left: 20px;
 `;
 
 interface ICoin {
@@ -58,16 +71,18 @@ interface ICoin {
   type: string;
 }
 
-interface ICoinProps {}
+interface ICoinProps {
+  toggleDark: () => void;
+}
 
-function Coins() {
+function Coins({ toggleDark }: ICoinProps) {
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
 
   return (
     <Container>
       <Header>
         <Title>코인</Title>
-        <button>Toggle button</button>
+        <ToggleBtn onClick={toggleDark}>Toggle button</ToggleBtn>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>

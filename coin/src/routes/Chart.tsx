@@ -1,8 +1,6 @@
 import { useQuery } from "react-query";
 import { fetchCoinHistory } from "../api";
 import ReactApexChart from "react-apexcharts";
-import { useRecoilValue } from "recoil";
-import { isDarkAtom } from "../atoms";
 
 interface IHistorical {
   time_open: string;
@@ -17,17 +15,17 @@ interface IHistorical {
 
 interface ChartProps {
   coinId: string;
+  isDark: boolean;
 }
 
-function Chart({ coinId }: ChartProps) {
+function Chart({ coinId, isDark }: ChartProps) {
   const { isLoading, data } = useQuery<IHistorical[]>(
     ["ohlcv", coinId],
     () => fetchCoinHistory(coinId),
     {
-      refetchInterval: 10000,
+      refetchInterval: 50000,
     }
   );
-  const isDark = useRecoilValue(isDarkAtom);
 
   return (
     <div>
@@ -35,23 +33,26 @@ function Chart({ coinId }: ChartProps) {
         "Loading chart..."
       ) : (
         <ReactApexChart
-          type="line"
+          type="candlestick"
           series={[
             {
-              name: "Price",
-              data: data?.map((price) => price.close) ?? [],
-            },
+              name: "PriceInformation",
+              data: data?.map((price) => [
+                new Date(price.time_open).getTime(),
+                price.open,
+                price.high,
+                price.low,
+                price.close,
+              ]),
+            } as any,
           ]}
-          //series = 차트에 표시하려는 데이터 ( Array ) (기본값 undefined)
           options={{
-            // 옵션 차트의 구성옵션 ( Object ) ( 기본값 {})
             theme: {
               mode: isDark ? "dark" : "light",
             },
             chart: {
               height: 300,
               width: 500,
-              // width, height  차트의 너비 and 높이 (String || Number ) (너비:  기본값 100%) (높이 :기본값 auto)
               toolbar: {
                 show: false,
               },
@@ -63,7 +64,8 @@ function Chart({ coinId }: ChartProps) {
               width: 4,
             },
             yaxis: {
-              show: false,
+              show: true,
+              tickAmount: 5,
             },
             xaxis: {
               axisBorder: { show: false },

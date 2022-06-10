@@ -1,4 +1,5 @@
 import { useQuery } from "react-query";
+import { Helmet } from "react-helmet";
 import {
   Switch,
   Route,
@@ -11,27 +12,36 @@ import styled from "styled-components";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import Chart from "./Chart";
 import Price from "./Price";
-import { Helmet } from "react-helmet";
+import { RiArrowGoBackLine } from "react-icons/ri";
+import { useHistory } from "react-router-dom";
 
 const Title = styled.h1`
   font-size: 48px;
   color: ${(props) => props.theme.accentColor};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
 `;
+
 const Loader = styled.span`
   text-align: center;
   display: block;
 `;
+
 const Container = styled.div`
   padding: 0px 20px;
   max-width: 480px;
   margin: 0 auto;
 `;
+
 const Header = styled.header`
   height: 15vh;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
+
 const Overview = styled.div`
   display: flex;
   justify-content: space-between;
@@ -43,9 +53,10 @@ const OverviewItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 33%;
   span:first-child {
-    font-size: 10px;
-    font-weight: 400;
+    font-size: 20px;
+    font-weight: 500;
     text-transform: uppercase;
     margin-bottom: 5px;
   }
@@ -64,16 +75,30 @@ const Tabs = styled.div`
 const Tab = styled.span<{ isActive: boolean }>`
   text-align: center;
   text-transform: uppercase;
-  font-size: 12px;
+  font-size: 30px;
   font-weight: 400;
   background-color: rgba(0, 0, 0, 0.5);
-  padding: 7px 0px;
   border-radius: 10px;
   color: ${(props) =>
     props.isActive ? props.theme.accentColor : props.theme.textColor};
   a {
+    padding: 7px 0px;
     display: block;
   }
+`;
+
+const BackBtn = styled.button`
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  margin-left: 15px;
+  border: none;
+  outline: none;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: violet;
 `;
 
 interface RouteParams {
@@ -82,7 +107,6 @@ interface RouteParams {
 interface RouteState {
   name: string;
 }
-
 interface InfoData {
   id: string;
   name: string;
@@ -137,11 +161,17 @@ interface PriceData {
   };
 }
 
-function Coin() {
+interface ICoinProps {
+  isDark: boolean;
+}
+
+function Coin({ isDark }: ICoinProps) {
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
   const priceMatch = useRouteMatch("/:coinId/price");
   const chartMatch = useRouteMatch("/:coinId/chart");
+  const history = useHistory();
+
   const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
     ["info", coinId],
     () => fetchCoinInfo(coinId)
@@ -153,6 +183,10 @@ function Coin() {
       refetchInterval: 5000,
     }
   );
+
+  const backpage = () => {
+    history.replace("/");
+  };
   const loading = infoLoading || tickersLoading;
   return (
     <Container>
@@ -163,11 +197,16 @@ function Coin() {
       </Helmet>
       <Header>
         <Title>
-          {state?.name ? state.name : loading ? "loading..." : infoData?.name}
+          <div>
+            {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
+          </div>
+          <BackBtn onClick={backpage}>
+            <RiArrowGoBackLine />
+          </BackBtn>
         </Title>
       </Header>
       {loading ? (
-        <Loader>loading...</Loader>
+        <Loader>Loading...</Loader>
       ) : (
         <>
           <Overview>
@@ -195,6 +234,7 @@ function Coin() {
               <span>{tickersData?.max_supply}</span>
             </OverviewItem>
           </Overview>
+
           <Tabs>
             <Tab isActive={chartMatch !== null}>
               <Link to={`/${coinId}/chart`}>Chart</Link>
@@ -206,10 +246,10 @@ function Coin() {
 
           <Switch>
             <Route path={`/:coinId/price`}>
-              <Price />
+              <Price isDark={isDark} coinId={coinId} />
             </Route>
             <Route path={`/:coinId/chart`}>
-              <Chart coinId={coinId} />
+              <Chart isDark={isDark} coinId={coinId} />
             </Route>
           </Switch>
         </>
