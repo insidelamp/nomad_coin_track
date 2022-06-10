@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/nomad_coin_track/static/js/main.c729874f.js",
+    "main.js": "/nomad_coin_track/static/js/main.ed82280e.js",
     "index.html": "/nomad_coin_track/index.html",
-    "main.c729874f.js.map": "/nomad_coin_track/static/js/main.c729874f.js.map"
+    "main.ed82280e.js.map": "/nomad_coin_track/static/js/main.ed82280e.js.map"
   },
   "entrypoints": [
-    "static/js/main.c729874f.js"
+    "static/js/main.ed82280e.js"
   ]
 }
